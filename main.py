@@ -1,4 +1,5 @@
 from turtle import Screen, Turtle
+from snake import Snake
 import turtle as t
 import time
 
@@ -16,11 +17,12 @@ def up():
 
 
 def left():
-    speed = 10
-    for part in parts:
-        part.fd(speed)
-        part.left(90)
-        speed += 10
+    for i in reversed(range(len(parts))):
+        x = parts[i - 1].xcor()
+        y = parts[i - 1].ycor()
+        parts[i].goto(x, y)
+    parts[0].left(90)
+    parts[0].fd(20)
 
 
 def right():
@@ -45,20 +47,12 @@ def main():
     screen.bgcolor("black")
     screen.title("Snake game")
     screen.tracer(0)
-    positions = [(0, 0), (-20, 0), (-40, 0)]
-    for pos in positions:
-        part = Turtle("square")
-        part.color("white")
-        part.pu()
-        part.goto(pos)
-        parts.append(part)
+    snake = Snake()
     is_not_dead = True
     while is_not_dead:
         screen.update()
         time.sleep(0.1)
-        for part in parts:
-            part.fd(1)
-
+        snake.move()
     screen.exitonclick()
 
 
