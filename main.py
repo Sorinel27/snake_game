@@ -3,12 +3,14 @@ from snake import Snake
 from food import Food
 from scoreboard import Score
 import time
+import os
 
 marcel = Turtle()
 screen = Screen()
 food = Food()
 parts = []
 score = Score()
+file = open("high_score.txt", "r+")
 
 
 def main():
@@ -35,9 +37,13 @@ def main():
             if snake.head.distance(snake.parts[i]) < 10:
                 is_not_dead = False
                 score.game_over()
+                if score.current_score > int(file.readline()):
+                    score.set_new_high_score()
         if snake.head.xcor() > 330 or snake.head.ycor() > 330 or snake.head.xcor() < -330 or snake.head.ycor() < -330:
             is_not_dead = False
             score.game_over()
+            if score.current_score > int(file.readline()):
+                score.set_new_high_score()
         snake.move()
     screen.exitonclick()
 
